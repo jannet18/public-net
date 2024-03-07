@@ -1,5 +1,6 @@
 class PlacesController < ApplicationController
     def index
-        render "places/index"
+        places = Place.all
+        render json: places, status: 200
     end
 end
