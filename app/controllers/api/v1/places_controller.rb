@@ -12,7 +12,6 @@ module Api
                     }
                 end
                 render json: { places: places},  status: 200
-
             end
 
             def most_recent_download_speed(place)
