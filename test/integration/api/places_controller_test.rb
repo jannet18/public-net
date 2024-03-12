@@ -24,20 +24,20 @@ module Api
                     }.stringify_keys
             )
             assert_equal expected_response, parsed_body
-    end
+        end
 
         test "answers all places if search term is set" do
-            place_1 = FactoryBot.create(:place, "Nifty")
-            place_2 = FactoryBot.create(:place, "Muna Tree")
+            place_1 = FactoryBot.create(:place, name: "Thayu Hotel")
+            place_2 = FactoryBot.create(:place, name: "Como Cafe")
 
-            get "/api/v1/places?search_term=Nifty"
+            get "/api/v1/places?search_term=Como"
             parsed_body = JSON.parse(response.body)
             expected_response = (
                 {
                     places: [
                        {
-                           name: place_1.name,
-                           city: place_1.city,
+                           name: place_2.name,
+                           city: place_2.city,
                            most_recent_download_speed: nil,
                            most_recent_download_units: nil,
                            number_of_measurements: 0
@@ -48,5 +48,16 @@ module Api
             assert_equal expected_response, parsed_body
          
         end
+
+        test "answers no places if search term does not match any place" do
+            FactoryBot.create(:place, name: "Starbucks")
+            get "/api/v1/places?search_term=Blah"
+
+            parsed_body = JSON.parse(response.body)
+
+            expected_response = {"places": []}.stringify_keys
+            assert_equal expected_response, parsed_body
+        end
+    
     end
 end
