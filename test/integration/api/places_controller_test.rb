@@ -58,6 +58,39 @@ module Api
             expected_response = {"places": []}.stringify_keys
             assert_equal expected_response, parsed_body
         end
+
+        test "recent upload speed, units and number of measurements are correct" do
+            place = FactoryBot.create(:place, name: "Redhill", city: "Nairobi")
+            speed1 = FactoryBot.create(
+                :internet_speed,
+                place: place,
+                download_speed: 57.20,
+                download_units: "mbps",
+                created_at: 3.days.ago
+            )
+            speed1 = FactoryBot.create(
+                :internet_speed,
+                place: place,
+                download_speed: 48.20,
+                download_units: "mbps",
+                created_at: 2.days.ago
+            )
+
+            get "/api/v1/places?search_term"
+            parsed_body = JSON.parse(response.body)
+
+            expect_response = {
+                places: [
+                    {
+                        name: "Redhill",
+                        city: "Nairobi",
+                        most_recent_download_speed: 57.20,
+                        most_recent_download_units: "mbps",
+                        number_of_measurements: 2
+                    }.stringify_keys
+                    ]
+                }.stringify_keys
+        end
     
     end
 end

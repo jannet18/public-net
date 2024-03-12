@@ -2,19 +2,16 @@ ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
 
-# before(:all) do
-#   FactoryBot.reload
-# end
 # reaload all models
 # Dir[Rails.root.join("test/factories/**/*.rb")].each do {|file| require file}   
 Dir["#{Rails.root}/test/factories/**/*.rb"].each do |file| 
 load file
 end 
 
-FactoryBot.factories.clear
-Dir.glob("#{::Rails.root}/test/factories/*.rb").each do |file|
-  load "#{file}"
-end
+# FactoryBot.factories.clear
+# Dir.glob("#{::Rails.root}/test/factories/*.rb").each do |file|
+#   load "#{file}"
+# end
 
 # publicnet::Application.reload_routes!
 class ActiveSupport::TestCase
