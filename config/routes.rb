@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :places, path: "/places"
-      resources :speed
+      resources :speed, path: "/new-internet-speed", to "/internet_speed#new"
     end
   end
   # get "api/v1/places" to "api/v1/places#index"
